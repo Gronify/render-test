@@ -1,19 +1,19 @@
-import type { Product } from '@/types/types';
+import type { Post } from '@/types/types';
 import Image from 'next/image';
 import Link from 'next/link';
 
 
-async function fetchProducts(): Promise<Product[]> {
-  const response = await fetch("https://dummyjson.com/products", {
+async function fetchPosts(): Promise<Post[]> {
+  const response = await fetch("https://dummyjson.com/posts", {
     cache: "no-store",
   });
 
   const data = await response.json();
-  return data.products;
+  return data.posts;
 }
 
-const Products = async () => {
-  const products: Product[] = await fetchProducts();
+const Posts = async () => {
+  const posts: Post[] = await fetchPosts();
 
 
   return (
@@ -21,27 +21,24 @@ const Products = async () => {
       <Link href="../" className="text-blue-500 hover:underline ">
         Back to List
       </Link>
-      <h1 className="text-4xl font-bold mb-8 text-center" style={{ fontFamily: 'Roboto, sans-serif', color: '#111827' }}>
-        Products
+      <h1 className="text-2xl font-bold mb-4">Select a Post:</h1>
+      <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {posts.map((post) => (
+          <li key={post.id} className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl hover:scale-105 transition-shadow duration-200">
+            <Link href={`../posts/${post.id}`} className="block p-4">
 
+              <h2 className="text-xl font-bold">{post.title}</h2>
+              <p>{post.body.slice(0, 100)}...</p>
 
-
-      </h1>
-
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {products.map(product => (
-          <Link href={`${product.id}/`} key={product.id} className="bg-white p-4 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-200">
-
-            <Image src={product.thumbnail} alt={product.title} width={600} height={400} className="object-cover mb-4 rounded-lg" />
-            <h2 className="text-xl font-semibold mb-2">{product.title}</h2>
-            <p className="text-gray-700 mb-4">{product.description}</p>
-            <p className="text-lg font-bold text-blue-600">${product.price}</p>
-
-          </Link>
+            </Link>
+            {/* <Link href={`../users/${post.userId}`} className="text-blue-500">
+              {post.userId}
+            </Link> */}
+          </li>
         ))}
-      </div>
+      </ul>
     </div>
   );
 };
 
-export default Products;
+export default Posts;
