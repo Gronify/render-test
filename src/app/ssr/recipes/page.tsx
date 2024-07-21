@@ -2,25 +2,8 @@
 import Link from 'next/link';
 import { Recipe } from "@/types/types";
 import Image from 'next/image';
+import { fetchRecipes } from '../api/api';
 
-export async function fetchRecipes(): Promise<Recipe[]> {
-  const response = await fetch("https://dummyjson.com/recipes", {
-    cache: "no-store",
-  });
-
-  const data = await response.json();
-  const recipes = data.recipes.filter((recipe: Recipe, index: number) => {
-
-    if (index !== 26) {
-      return recipe
-    }
-  })
-  return recipes;
-}
-
-interface RecipesPageProps {
-  recipes: Recipe[];
-}
 
 const RecipesPage = async () => {
   const recipes: Recipe[] = await fetchRecipes();

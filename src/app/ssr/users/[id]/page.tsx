@@ -1,6 +1,7 @@
 import type { User } from '@/types/types';
 import Image from 'next/image';
 import Link from 'next/link';
+import { fetchUser } from '../../api/api';
 
 
 interface UserPageProps {
@@ -9,14 +10,6 @@ interface UserPageProps {
   };
 }
 
-async function fetchUser(id: string): Promise<User> {
-  const response = await fetch(`https://dummyjson.com/users/${id}`, {
-    cache: "no-store",
-  });
-  const data = await response.json();
-
-  return data;
-}
 
 const UserPage = async ({ params }: UserPageProps) => {
   const user: User = await fetchUser(params.id);

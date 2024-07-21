@@ -1,14 +1,7 @@
 import { Todo, User } from '@/types/types';
 import Link from 'next/link';
 import '../../globals.css';
-
-async function fetchTodos(): Promise<Todo[]> {
-  const response = await fetch('https://dummyjson.com/todos', {
-    cache: 'no-store',
-  });
-  const data = await response.json();
-  return data.todos;
-}
+import { fetchTodos } from '../api/api';
 
 export default async function TodosPage() {
   const todos: Todo[] = await fetchTodos();

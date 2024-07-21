@@ -1,16 +1,6 @@
-import type { Product, Quote } from '@/types/types';
-import Image from 'next/image';
+import type { Quote } from '@/types/types';
 import Link from 'next/link';
-
-
-async function fetchQuotes(): Promise<Quote[]> {
-  const response = await fetch("https://dummyjson.com/quotes", {
-    cache: "no-store",
-  });
-
-  const data = await response.json();
-  return data.quotes;
-}
+import { fetchQuotes } from '../api/api';
 
 const Quotes = async () => {
   const quotes: Quote[] = await fetchQuotes();

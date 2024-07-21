@@ -1,6 +1,7 @@
 import type { Product, Review } from '@/types/types';
 import Image from 'next/image';
 import Link from 'next/link';
+import { fetchProduct } from '../../api/api';
 
 
 interface ProductPageProps {
@@ -9,13 +10,7 @@ interface ProductPageProps {
   };
 }
 
-async function fetchProduct(id: string): Promise<Product> {
-  const response = await fetch(`https://dummyjson.com/products/${id}`, {
-    cache: "no-store",
-  });
-  const data = await response.json();
-  return data;
-}
+
 const Product = async ({ params }: ProductPageProps) => {
   const product: Product = await fetchProduct(params.id);
   // console.log(product)

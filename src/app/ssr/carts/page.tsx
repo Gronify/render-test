@@ -1,19 +1,13 @@
 import type { Cart } from '@/types/types';
 import Image from 'next/image';
 import Link from 'next/link';
+import { fetchCarts } from '../api/api';
 
 
-async function fetchProducts(): Promise<Cart[]> {
-  const response = await fetch("https://dummyjson.com/carts", {
-    cache: "no-store",
-  });
 
-  const data = await response.json();
-  return data.carts;
-}
 
 const Carts = async () => {
-  const carts: Cart[] = await fetchProducts();
+  const carts: Cart[] = await fetchCarts();
 
 
   return (

@@ -1,16 +1,8 @@
 import type { Post } from '@/types/types';
 import Image from 'next/image';
 import Link from 'next/link';
+import { fetchPosts } from '../api/api';
 
-
-async function fetchPosts(): Promise<Post[]> {
-  const response = await fetch("https://dummyjson.com/posts", {
-    cache: "no-store",
-  });
-
-  const data = await response.json();
-  return data.posts;
-}
 
 const Posts = async () => {
   const posts: Post[] = await fetchPosts();

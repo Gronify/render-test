@@ -1,50 +1,13 @@
 import type { Comment, Post, User } from '@/types/types';
 import Image from 'next/image';
 import Link from 'next/link';
+import { fetchComments, fetchPost, fetchUser } from '../../api/api';
 
 
 interface PostPageProps {
   params: {
     id: string;
   };
-}
-
-async function fetchPost(id: string): Promise<Post> {
-  const response = await fetch(`https://dummyjson.com/posts/${id}`, {
-    cache: "no-store",
-  });
-  const data = await response.json();
-  return data;
-}
-
-
-async function fetchComments(id: string): Promise<Comment[]> {
-  const response = await fetch(`https://dummyjson.com/posts/${id}/comments`, {
-    cache: "no-store",
-  });
-  const data = await response.json();
-
-  const comments = await data.comments.map(async (comment: Comment, index: number) => {
-    const response = await fetch(`https://dummyjson.com/users/${comment.user.id}`, {
-      cache: "no-store",
-    });
-
-    comment.user = await response.json()
-
-    return comment
-  })
-  await Promise.all(comments)
-
-
-  return data.comments;
-}
-
-async function fetchUser(id: number): Promise<User> {
-  const response = await fetch(`https://dummyjson.com/users/${id}`, {
-    cache: "no-store",
-  });
-  const data = await response.json();
-  return data;
 }
 
 const Post = async ({ params }: PostPageProps) => {

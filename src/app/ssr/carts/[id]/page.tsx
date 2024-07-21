@@ -1,6 +1,7 @@
 import type { Cart } from '@/types/types';
 import Image from 'next/image';
 import Link from 'next/link';
+import { fetchCart } from '../../api/api';
 
 
 interface ProductPageProps {
@@ -9,15 +10,9 @@ interface ProductPageProps {
   };
 }
 
-async function fetchProduct(id: string): Promise<Cart> {
-  const response = await fetch(`https://dummyjson.com/cart/${id}`, {
-    cache: "no-store",
-  });
-  const data = await response.json();
-  return data;
-}
+
 const Cart = async ({ params }: ProductPageProps) => {
-  const cart: Cart = await fetchProduct(params.id);
+  const cart: Cart = await fetchCart(params.id);
   // console.log(product)
   return (
     <div className="bg-gray-100 min-h-screen p-4">

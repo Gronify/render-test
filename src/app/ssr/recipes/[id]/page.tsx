@@ -1,6 +1,7 @@
 import type { Recipe } from '@/types/types';
 import Image from 'next/image';
 import Link from 'next/link';
+import { fetchRecipe } from '../../api/api';
 
 
 interface RecipesPageProps {
@@ -9,13 +10,6 @@ interface RecipesPageProps {
   };
 }
 
-async function fetchRecipe(id: string): Promise<Recipe> {
-  const response = await fetch(`https://dummyjson.com/recipes/${id}`, {
-    cache: "no-store",
-  });
-  const data = await response.json();
-  return data;
-}
 const RecipePage = async ({ params }: RecipesPageProps) => {
   const recipe: Recipe = await fetchRecipe(params.id);
 
