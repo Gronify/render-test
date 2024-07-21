@@ -4,8 +4,6 @@ import Link from 'next/link';
 import { fetchCarts } from '../api/api';
 
 
-
-
 const Carts = async () => {
   const carts: Cart[] = await fetchCarts();
 
