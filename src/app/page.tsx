@@ -23,7 +23,7 @@ const HomePage = () => {
         {renderMethods.map(method => (
           <Link href={method.href} key={method.name}>
             <div className="bg-white p-6 rounded-lg shadow-md cursor-pointer transform hover:scale-105 transition-transform">
-              <Image src={method.imgSrc} alt={method.name} className="w-full h-40 object-cover mb-4 rounded-lg" />
+              <Image src={method.imgSrc} alt={method.name} width={600} height={300} className="w-full h-40 object-cover mb-4 rounded-lg" />
               <h2 className="text-2xl font-bold mb-2" style={{ fontFamily: 'Roboto, sans-serif', color: '#1F2937' }}>
                 {method.name}
               </h2>
