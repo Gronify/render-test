@@ -7,7 +7,7 @@ const renderMethods = [
   { name: 'CSR', description: 'Client-Side Rendering', imgSrc: 'https://dummyjson.com/image/600x300/4B6663/ffffff?text=CCR&font=lobste', href: 'csr' },
   { name: 'SSR', description: 'Server-Side Rendering', imgSrc: 'https://dummyjson.com/image/600x300/4B6663/ffffff?text=SSR&font=lobster', href: 'ssr' },
   { name: 'SSG', description: 'Static Site Generation', imgSrc: 'https://dummyjson.com/image/600x300/4B6663/ffffff?text=SSG&font=lobster', href: 'ssg' },
-  { name: 'Hybrid', description: 'Hybrid Rendering', imgSrc: 'https://dummyjson.com/image/600x300/4B66  63/ffffff?text=Hybrid&font=lobster', href: 'hybrid' },
+  { name: 'Hybrid', description: 'Hybrid Rendering', imgSrc: 'https://dummyjson.com/image/600x300/4B6663/ffffff?text=Hybrid&font=lobster', href: 'hybrid' },
 ];
 
 const HomePage = () => {

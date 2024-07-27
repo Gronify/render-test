@@ -8,7 +8,7 @@ const dataOptions = [
   { name: 'Todos', description: 'Manage your todos', imgSrc: 'https://dummyjson.com/image/600x300/4B5563/ffffff?text=Todos&font=lobster', href: 'todos' },
   { name: 'Quotes', description: 'Inspiring quotes', imgSrc: 'https://dummyjson.com/image/600x300/4B5563/ffffff?text=Quotes&font=lobster', href: 'quotes' },
 ];
-const ServerSideRendering = async () => {
+const ClientSideRendering = async () => {
 
   return (
     <div className="bg-gray-100 min-h-screen p-4">
@@ -34,4 +34,4 @@ const ServerSideRendering = async () => {
   );
 };
 
-export default ServerSideRendering;
+export default ClientSideRendering;
