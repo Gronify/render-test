@@ -2,6 +2,7 @@ import type { Recipe } from "@/types/types";
 import Image from "next/image";
 import Link from "next/link";
 import { fetchRecipe, fetchRecipes } from "../../api/api";
+import { notFound } from "next/navigation";
 
 interface RecipesPageProps {
   params: {
@@ -11,6 +12,9 @@ interface RecipesPageProps {
 
 const RecipePage = async ({ params }: RecipesPageProps) => {
   const recipe: Recipe = await fetchRecipe(params.id);
+  if (!recipe.ingredients) {
+    notFound();
+  }
 
   return (
     <div className="bg-gray-100 min-h-screen p-4">
