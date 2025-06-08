@@ -13,7 +13,7 @@ interface UserPageProps {
 const UserPage = async ({ params }: UserPageProps) => {
   const user: User = await fetchUser(params.id);
   if (!user.hair.color) {
-    console.log(params.id);
+    console.log("hybrid user" + params.id);
   }
   return (
     <div className="p-4">
