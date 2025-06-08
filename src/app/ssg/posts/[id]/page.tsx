@@ -83,9 +83,12 @@ export default Post;
 
 export async function generateStaticParams() {
   const posts: Post[] = await fetchPosts();
-  return posts.map((post) => {
-    return {
-      id: post.id.toString(),
-    };
-  });
+
+  if (!posts || !Array.isArray(posts)) {
+    throw new Error("fetchPosts returned invalid data");
+  }
+
+  return posts.map((post) => ({
+    id: post.id.toString(),
+  }));
 }
