@@ -12,10 +12,11 @@ interface ProductPageProps {
 
 const Cart = async ({ params }: ProductPageProps) => {
   const cart: Cart = await fetchCart(params.id);
-  if (!cart) {
+  if (!cart || !cart.products) {
     notFound();
   }
-  // console.log(product)
+
+  console.log(cart);
   return (
     <div className="bg-gray-100 min-h-screen p-4">
       <Link href="../" className="text-blue-500 hover:underline">

@@ -18,7 +18,9 @@ const Post = async ({ params }: PostPageProps) => {
   if (!comments) {
     notFound();
   }
-
+  console.log(post);
+  console.log(comments);
+  console.log(user);
   return (
     <div className="bg-gray-100 min-h-screen p-4">
       <div className="max-w-3xl mx-auto bg-white p-6 rounded-lg shadow-md">
