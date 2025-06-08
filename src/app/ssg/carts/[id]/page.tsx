@@ -1,8 +1,8 @@
-import type { Cart } from '@/types/types';
-import Image from 'next/image';
-import Link from 'next/link';
-import { fetchCart, fetchCarts } from '../../api/api';
-
+import type { Cart } from "@/types/types";
+import Image from "next/image";
+import Link from "next/link";
+import { fetchCart, fetchCarts } from "../../api/api";
+import { notFound } from "next/navigation";
 
 interface ProductPageProps {
   params: {
@@ -10,9 +10,11 @@ interface ProductPageProps {
   };
 }
 
-
 const Cart = async ({ params }: ProductPageProps) => {
   const cart: Cart = await fetchCart(params.id);
+  if (!cart) {
+    notFound();
+  }
   // console.log(product)
   return (
     <div className="bg-gray-100 min-h-screen p-4">
@@ -23,17 +25,32 @@ const Cart = async ({ params }: ProductPageProps) => {
         <h1 className="text-2xl font-bold mb-4">Cart {cart.id}</h1>
         <div>
           <p className="text-gray-600 mb-2">Total: ${cart.total}</p>
-          <p className="text-gray-600 mb-2">Discounted Total: ${cart.discountedTotal}</p>
-          <p className="text-gray-600 mb-2">Total Products: {cart.totalProducts}</p>
-          <p className="text-gray-600 mb-2">Total Quantity: {cart.totalQuantity}</p>
+          <p className="text-gray-600 mb-2">
+            Discounted Total: ${cart.discountedTotal}
+          </p>
+          <p className="text-gray-600 mb-2">
+            Total Products: {cart.totalProducts}
+          </p>
+          <p className="text-gray-600 mb-2">
+            Total Quantity: {cart.totalQuantity}
+          </p>
           <p className="text-gray-600">User ID: {cart.userId}</p>
         </div>
         <h2 className="text-xl font-bold mb-2">Products:</h2>
         <ul>
           {cart.products.map((product) => (
-            <li key={product.id} className="mb-4 p-4 bg-gray-100 rounded-lg grid grid-cols-2">
+            <li
+              key={product.id}
+              className="mb-4 p-4 bg-gray-100 rounded-lg grid grid-cols-2"
+            >
               <div className="flex justify-center items-center">
-                <Image src={product.thumbnail} alt={product.title} className="mt-2" width={200} height={200} />
+                <Image
+                  src={product.thumbnail}
+                  alt={product.title}
+                  className="mt-2"
+                  width={200}
+                  height={200}
+                />
               </div>
               <div>
                 <div className="font-bold">{product.title}</div>
@@ -43,25 +60,25 @@ const Cart = async ({ params }: ProductPageProps) => {
                 <div>Discount Percentage: {product.discountPercentage}%</div>
                 <div>Discounted Total: ${product.discountedTotal}</div>
               </div>
-
             </li>
           ))}
         </ul>
-
       </div>
     </div>
   );
-}
+};
 
 export default Cart;
 
 export async function generateStaticParams() {
   const carts: Cart[] = await fetchCarts();
+
+  if (!carts || !Array.isArray(carts)) {
+    throw new Error("fetchCarts returned invalid data");
+  }
   return carts.map((cart) => {
-    return (
-      {
-        id: cart.id.toString(),
-      }
-    )
-  })
+    return {
+      id: cart.id.toString(),
+    };
+  });
 }
