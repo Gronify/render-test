@@ -1,10 +1,10 @@
-'use client'
-import type { Product, Review } from '@/types/types';
-import Image from 'next/image';
-import Link from 'next/link';
-import { fetchProduct } from '../../api/api';
-import { useEffect, useState } from 'react';
-import dynamic from 'next/dynamic'
+"use client";
+import type { Product, Review } from "@/types/types";
+import Image from "next/image";
+import Link from "next/link";
+import { fetchProduct } from "../../api/api";
+import { useEffect, useState } from "react";
+import dynamic from "next/dynamic";
 
 interface ProductPageProps {
   params: {
@@ -12,52 +12,50 @@ interface ProductPageProps {
   };
 }
 
-
 const Product = ({ params }: ProductPageProps) => {
-
   const [product, setProduct] = useState<Product>({
     id: 0,
-    title: '',
-    description: '',
-    category: '',
+    title: "",
+    description: "",
+    category: "",
     price: 0,
     discountPercentage: 0,
     rating: 0,
     stock: 0,
     tags: [],
-    brand: '',
-    sku: '',
+    brand: "",
+    sku: "",
     weight: 0,
     dimensions: {
       width: 0,
       height: 0,
       depth: 0,
     },
-    warrantyInformation: '',
-    shippingInformation: '',
-    availabilityStatus: '',
+    warrantyInformation: "",
+    shippingInformation: "",
+    availabilityStatus: "",
     reviews: [],
-    returnPolicy: '',
+    returnPolicy: "",
     minimumOrderQuantity: 0,
     meta: {
-      createdAt: '',
-      updatedAt: '',
-      barcode: '',
-      qrCode: '',
+      createdAt: "",
+      updatedAt: "",
+      barcode: "",
+      qrCode: "",
     },
-    thumbnail: '',
-    images: []
-  })
+    thumbnail: "",
+    images: [],
+  });
   useEffect(() => {
     fetchProduct(params.id).then((res) => {
-      setProduct(res)
-    })
-  }, [])
+      setProduct(res);
+    });
+  }, [params.id]);
 
   return (
     <div className="bg-gray-100 min-h-screen p-4">
       <div className="max-w-3xl mx-auto bg-white p-6 rounded-lg shadow-md">
-        <div className='flex'>
+        <div className="flex">
           <div className="relative w-1/2 rounded-lg overflow-hidden">
             <Image
               src={product.thumbnail}
@@ -80,7 +78,10 @@ const Product = ({ params }: ProductPageProps) => {
             <li>Brand: {product.brand}</li>
             <li>SKU: {product.sku}</li>
             <li>Weight: {product.weight}g</li>
-            <li>Dimensions: {product.dimensions.width}x{product.dimensions.height}x{product.dimensions.depth} mm</li>
+            <li>
+              Dimensions: {product.dimensions.width}x{product.dimensions.height}
+              x{product.dimensions.depth} mm
+            </li>
             <li>Warranty: {product.warrantyInformation}</li>
             <li>Shipping: {product.shippingInformation}</li>
             <li>Availability: {product.availabilityStatus}</li>
@@ -92,7 +93,10 @@ const Product = ({ params }: ProductPageProps) => {
           <h3 className="text-xl font-semibold">Reviews:</h3>
           <div className="space-y-4">
             {product.reviews.map((review: Review) => (
-              <div key={review.reviewerEmail} className="bg-gray-100 p-4 rounded-lg shadow-sm">
+              <div
+                key={review.reviewerEmail}
+                className="bg-gray-100 p-4 rounded-lg shadow-sm"
+              >
                 <div className="flex items-center mb-2">
                   <div className="flex-shrink-0 mr-3">
                     <Image
@@ -105,7 +109,9 @@ const Product = ({ params }: ProductPageProps) => {
                   </div>
                   <div>
                     <p className="font-semibold">{review.reviewerName}</p>
-                    <p className="text-sm text-gray-600">{new Date(review.date).toLocaleDateString()}</p>
+                    <p className="text-sm text-gray-600">
+                      {new Date(review.date).toLocaleDateString()}
+                    </p>
                   </div>
                 </div>
                 <p className="text-gray-700 mb-2">{review.comment}</p>
@@ -120,7 +126,6 @@ const Product = ({ params }: ProductPageProps) => {
       </div>
     </div>
   );
-}
+};
 
-
-export default dynamic(() => Promise.resolve(Product), { ssr: false })
+export default dynamic(() => Promise.resolve(Product), { ssr: false });

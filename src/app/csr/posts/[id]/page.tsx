@@ -111,7 +111,7 @@ const Post = ({ params }: PostPageProps) => {
 
 
 
-  }, [])
+  }, [params.id])
   useEffect(() => {
     fetchUser(post.userId).then((res) => {
       setUser(res)
