@@ -18,9 +18,6 @@ const Post = async ({ params }: PostPageProps) => {
   if (!comments) {
     notFound();
   }
-  console.log(post);
-  console.log(comments);
-  console.log(user);
   return (
     <div className="bg-gray-100 min-h-screen p-4">
       <div className="max-w-3xl mx-auto bg-white p-6 rounded-lg shadow-md">
@@ -53,7 +50,7 @@ const Post = async ({ params }: PostPageProps) => {
           <h2 className="text-xl font-bold mt-6 mb-2">Comments</h2>
           <div className="bg-white rounded-lg shadow-md p-4">
             <ul>
-              {comments.map(async (comment) => (
+              {comments.map((comment) => (
                 <li key={comment.id} className="mb-4 border-b pb-2 ">
                   <div className="flex">
                     <Image

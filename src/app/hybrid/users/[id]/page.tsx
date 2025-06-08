@@ -12,10 +12,6 @@ interface UserPageProps {
 
 const UserPage = async ({ params }: UserPageProps) => {
   const user: User = await fetchUser(params.id);
-  if (!user.hair.color) {
-    console.log(user);
-    notFound();
-  }
 
   return (
     <div className="p-4">
@@ -59,10 +55,10 @@ const UserPage = async ({ params }: UserPageProps) => {
             <strong>Eye Color:</strong> {user.eyeColor}
           </p>
           <p>
-            <strong>Hair Color:</strong> {user.hair.color}
+            <strong>Hair Color:</strong> {user.hair?.color ?? "N/A"}
           </p>
           <p>
-            <strong>Hair Type:</strong> {user.hair.type}
+            <strong>Hair Type:</strong> {user.hair?.color ?? "N/A"}
           </p>
         </div>
         <div className="bg-white rounded-lg shadow-md p-4 mb-4">

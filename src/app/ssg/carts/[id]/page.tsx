@@ -15,8 +15,6 @@ const Cart = async ({ params }: ProductPageProps) => {
   if (!cart || !cart.products) {
     notFound();
   }
-
-  console.log(cart);
   return (
     <div className="bg-gray-100 min-h-screen p-4">
       <Link href="../" className="text-blue-500 hover:underline">
