@@ -14,6 +14,7 @@ const RecipePage = async ({ params }: RecipesPageProps) => {
   const recipe: Recipe = await fetchRecipe(params.id);
   if (!recipe.ingredients) {
     console.log("ssg recipe" + params.id);
+    console.log("ssg recipe" + recipe);
     notFound();
   }
   return (
