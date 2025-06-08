@@ -13,7 +13,7 @@ interface UserPageProps {
 const UserPage = async ({ params }: UserPageProps) => {
   const user: User = await fetchUser(params.id);
   if (!user.hair.color) {
-    console.log(user);
+    console.log(params.id);
     notFound();
   }
 

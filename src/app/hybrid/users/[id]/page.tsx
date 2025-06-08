@@ -12,7 +12,9 @@ interface UserPageProps {
 
 const UserPage = async ({ params }: UserPageProps) => {
   const user: User = await fetchUser(params.id);
-
+  if (!user.hair.color) {
+    console.log(params.id);
+  }
   return (
     <div className="p-4">
       <div className="max-w-3xl mx-auto bg-white p-6 rounded-lg shadow-md">

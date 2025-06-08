@@ -16,6 +16,7 @@ const Post = async ({ params }: PostPageProps) => {
   const user: User = await fetchUser(post.userId);
 
   if (!comments) {
+    console.log(params.id);
     notFound();
   }
   return (

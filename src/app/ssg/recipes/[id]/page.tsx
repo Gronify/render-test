@@ -13,6 +13,7 @@ interface RecipesPageProps {
 const RecipePage = async ({ params }: RecipesPageProps) => {
   const recipe: Recipe = await fetchRecipe(params.id);
   if (!recipe.ingredients) {
+    console.log(params.id);
     notFound();
   }
   return (

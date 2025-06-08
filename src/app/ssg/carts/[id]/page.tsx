@@ -13,6 +13,7 @@ interface ProductPageProps {
 const Cart = async ({ params }: ProductPageProps) => {
   const cart: Cart = await fetchCart(params.id);
   if (!cart || !cart.products) {
+    console.log(params.id);
     notFound();
   }
   return (
