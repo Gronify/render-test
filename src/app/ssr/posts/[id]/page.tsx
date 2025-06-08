@@ -1,8 +1,8 @@
-import type { Comment, Post, User } from '@/types/types';
-import Image from 'next/image';
-import Link from 'next/link';
-import { fetchComments, fetchPost, fetchUser } from '../../api/api';
-
+import type { Comment, Post, User } from "@/types/types";
+import Image from "next/image";
+import Link from "next/link";
+import { fetchComments, fetchPost, fetchUser } from "../../api/api";
+import { notFound } from "next/navigation";
 
 interface PostPageProps {
   params: {
@@ -15,6 +15,9 @@ const Post = async ({ params }: PostPageProps) => {
   const comments: Comment[] = await fetchComments(params.id);
   const user: User = await fetchUser(post.userId);
 
+  if (!comments) {
+    notFound();
+  }
 
   return (
     <div className="bg-gray-100 min-h-screen p-4">
@@ -27,10 +30,18 @@ const Post = async ({ params }: PostPageProps) => {
           <div className="bg-white rounded-lg shadow-md p-4 mb-4">
             <p>{post.body}</p>
             <div className="mt-4">
-              <p><strong>Views:</strong> {post.views}</p>
-              <p><strong>Likes:</strong> {post.reactions.likes}</p>
-              <p><strong>Dislikes:</strong> {post.reactions.dislikes}</p>
-              <p><strong>Tags:</strong> {post.tags.join(', ')}</p>
+              <p>
+                <strong>Views:</strong> {post.views}
+              </p>
+              <p>
+                <strong>Likes:</strong> {post.reactions.likes}
+              </p>
+              <p>
+                <strong>Dislikes:</strong> {post.reactions.dislikes}
+              </p>
+              <p>
+                <strong>Tags:</strong> {post.tags.join(", ")}
+              </p>
             </div>
             <Link href={`../../users/${post.userId}`} className="text-blue-500">
               {user.lastName} {user.firstName}
@@ -43,22 +54,29 @@ const Post = async ({ params }: PostPageProps) => {
               {comments.map(async (comment) => (
                 <li key={comment.id} className="mb-4 border-b pb-2 ">
                   <div className="flex">
-
-                    <Image src={comment.user.image} alt={`${user.firstName} ${user.lastName}`} height={128} width={128} className="w-14 h-14 object-cover rounded-full mb-4" />
+                    <Image
+                      src={comment.user.image}
+                      alt={`${user.firstName} ${user.lastName}`}
+                      height={128}
+                      width={128}
+                      className="w-14 h-14 object-cover rounded-full mb-4"
+                    />
                     <p>{comment.body}</p>
                   </div>
-                  <Link href={`../../users/${comment.user.id}`} className="text-blue-500 flex justify-end">
+                  <Link
+                    href={`../../users/${comment.user.id}`}
+                    className="text-blue-500 flex justify-end"
+                  >
                     {comment.user.firstName}
                   </Link>
-                </li>)
-              )}
+                </li>
+              ))}
             </ul>
           </div>
         </div>
-
       </div>
     </div>
   );
-}
+};
 
 export default Post;
