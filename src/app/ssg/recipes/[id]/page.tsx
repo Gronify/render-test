@@ -1,8 +1,7 @@
-import type { Recipe } from '@/types/types';
-import Image from 'next/image';
-import Link from 'next/link';
-import { fetchRecipe, fetchRecipes } from '../../api/api';
-
+import type { Recipe } from "@/types/types";
+import Image from "next/image";
+import Link from "next/link";
+import { fetchRecipe, fetchRecipes } from "../../api/api";
 
 interface RecipesPageProps {
   params: {
@@ -20,16 +19,39 @@ const RecipePage = async ({ params }: RecipesPageProps) => {
           Back to Recipes
         </Link>
         <h1 className="text-2xl font-bold mb-4">{recipe.name}</h1>
-        <Image src={recipe.image} alt={recipe.name} width={360} height={360} className=" h-64 object-cover rounded-lg mb-4" />
+        <Image
+          src={recipe.image}
+          alt={recipe.name}
+          width={360}
+          height={360}
+          className=" h-64 object-cover rounded-lg mb-4"
+        />
         <div className="bg-white rounded-lg shadow-md p-4 mb-4">
-          <p><strong>Prep Time:</strong> {recipe.prepTimeMinutes} minutes</p>
-          <p><strong>Cook Time:</strong> {recipe.cookTimeMinutes} minutes</p>
-          <p><strong>Servings:</strong> {recipe.servings}</p>
-          <p><strong>Difficulty:</strong> {recipe.difficulty}</p>
-          <p><strong>Cuisine:</strong> {recipe.cuisine}</p>
-          <p><strong>Calories per Serving:</strong> {recipe.caloriesPerServing}</p>
-          <p><strong>Rating:</strong> {recipe.rating} ({recipe.reviewCount} reviews)</p>
-          <p><strong>Meal Type:</strong> {recipe.mealType.join(', ')}</p>
+          <p>
+            <strong>Prep Time:</strong> {recipe.prepTimeMinutes} minutes
+          </p>
+          <p>
+            <strong>Cook Time:</strong> {recipe.cookTimeMinutes} minutes
+          </p>
+          <p>
+            <strong>Servings:</strong> {recipe.servings}
+          </p>
+          <p>
+            <strong>Difficulty:</strong> {recipe.difficulty}
+          </p>
+          <p>
+            <strong>Cuisine:</strong> {recipe.cuisine}
+          </p>
+          <p>
+            <strong>Calories per Serving:</strong> {recipe.caloriesPerServing}
+          </p>
+          <p>
+            <strong>Rating:</strong> {recipe.rating} ({recipe.reviewCount}{" "}
+            reviews)
+          </p>
+          <p>
+            <strong>Meal Type:</strong> {recipe.mealType.join(", ")}
+          </p>
         </div>
         <div className="bg-white rounded-lg shadow-md p-4 mb-4">
           <h2 className="text-xl font-bold mb-2">Ingredients</h2>
@@ -48,8 +70,9 @@ const RecipePage = async ({ params }: RecipesPageProps) => {
           </ol>
         </div>
         <div className="bg-white rounded-lg shadow-md p-4 mb-4">
-
-          <p><strong>Tags:</strong> {recipe.tags.join(', ')}</p>
+          <p>
+            <strong>Tags:</strong> {recipe ? recipe.tags.join(", ") : null}
+          </p>
         </div>
       </div>
     </div>
@@ -61,10 +84,8 @@ export default RecipePage;
 export async function generateStaticParams() {
   const recipes: Recipe[] = await fetchRecipes();
   return recipes.map((recipe) => {
-    return (
-      {
-        id: recipe.id.toString(),
-      }
-    )
-  })
+    return {
+      id: recipe.id.toString(),
+    };
+  });
 }
