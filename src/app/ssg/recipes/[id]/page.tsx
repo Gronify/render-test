@@ -9,14 +9,18 @@ interface RecipesPageProps {
     id: string;
   };
 }
+async function fetchRecipeWithRetry(id: string, retries = 10): Promise<Recipe> {
+  for (let i = 0; i < retries; i++) {
+    const res = await fetchRecipe(id);
+    if (res && res.ingredients?.length > 0) return res;
+    await new Promise((r) => setTimeout(r, 500));
+  }
+  throw new Error(`Failed to fetch recipe ${id} after ${retries} retries`);
+}
 
 const RecipePage = async ({ params }: RecipesPageProps) => {
-  const recipe: Recipe = await fetchRecipe(params.id);
-  if (!recipe.ingredients) {
-    console.log("ssg recipe" + params.id);
-    console.log("ssg recipe" + recipe);
-    notFound();
-  }
+  const recipe: Recipe = await fetchRecipeWithRetry(params.id);
+
   return (
     <div className="bg-gray-100 min-h-screen p-4">
       <div className="max-w-3xl mx-auto bg-white p-6 rounded-lg shadow-md">

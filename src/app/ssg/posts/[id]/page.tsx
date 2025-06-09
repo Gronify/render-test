@@ -10,15 +10,28 @@ interface PostPageProps {
   };
 }
 
-const Post = async ({ params }: PostPageProps) => {
-  const post: Post = await fetchPost(params.id);
-  const comments: Comment[] = await fetchComments(params.id);
-  const user: User = await fetchUser(post.userId);
-
-  if (!comments) {
-    console.log("ssg post" + params.id);
-    notFound();
+async function withRetry<T>(
+  fn: () => Promise<T>,
+  retries = 10,
+  delay = 500
+): Promise<T> {
+  for (let i = 0; i < retries; i++) {
+    try {
+      const result = await fn();
+      if (result) return result;
+    } catch (err) {
+      console.warn(`Retry ${i + 1} failed:`, err);
+    }
+    await new Promise((res) => setTimeout(res, delay));
   }
+  throw new Error("Retry failed after " + retries + " attempts");
+}
+
+const Post = async ({ params }: PostPageProps) => {
+  const post: Post = await withRetry(() => fetchPost(params.id));
+  const comments: Comment[] = await withRetry(() => fetchComments(params.id));
+  const user: User = await withRetry(() => fetchUser(post.userId));
+
   return (
     <div className="bg-gray-100 min-h-screen p-4">
       <div className="max-w-3xl mx-auto bg-white p-6 rounded-lg shadow-md">

@@ -10,12 +10,26 @@ interface ProductPageProps {
   };
 }
 
-const Cart = async ({ params }: ProductPageProps) => {
-  const cart: Cart = await fetchCart(params.id);
-  if (!cart || !cart.products) {
-    console.log("ssg cart" + params.id);
-    notFound();
+async function fetchCartWithRetry(
+  id: string,
+  retries = 10,
+  delay = 500
+): Promise<Cart> {
+  for (let i = 0; i < retries; i++) {
+    try {
+      const cart = await fetchCart(id);
+      if (cart && Array.isArray(cart.products)) return cart;
+    } catch (err) {
+      console.warn(`Fetch cart attempt ${i + 1} failed for id ${id}`);
+    }
+    await new Promise((res) => setTimeout(res, delay));
   }
+  throw new Error(`Failed to fetch cart ${id} after ${retries} retries`);
+}
+
+const Cart = async ({ params }: ProductPageProps) => {
+  const cart: Cart = await fetchCartWithRetry(params.id);
+
   return (
     <div className="bg-gray-100 min-h-screen p-4">
       <Link href="../" className="text-blue-500 hover:underline">

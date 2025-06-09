@@ -10,11 +10,26 @@ interface UserPageProps {
   };
 }
 
-const UserPage = async ({ params }: UserPageProps) => {
-  const user: User = await fetchUser(params.id);
-  if (!user.hair.color) {
-    console.log("hybrid user" + params.id);
+async function fetchUserWithRetry(
+  id: string,
+  retries = 10,
+  delay = 500
+): Promise<User> {
+  for (let i = 0; i < retries; i++) {
+    try {
+      const user = await fetchUser(id);
+      if (user && user.hair?.color) return user;
+    } catch (err) {
+      console.warn(`Fetch attempt ${i + 1} for user ${id} failed`);
+    }
+    await new Promise((res) => setTimeout(res, delay));
   }
+  throw new Error(`Failed to fetch user ${id} after ${retries} retries`);
+}
+
+const UserPage = async ({ params }: UserPageProps) => {
+  const user: User = await fetchUserWithRetry(params.id);
+
   return (
     <div className="p-4">
       <div className="max-w-3xl mx-auto bg-white p-6 rounded-lg shadow-md">
